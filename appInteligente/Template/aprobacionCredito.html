@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign</title>
+
+</head>
+<body>
+<form action="/predecir/" method="post">
+    {% csrf_token %}
+    <p>CENTRO ID:
+    <input type="number" name="CENTERID"></p>
+    <p>WEEK:
+    <input type="number" name="WEEK" step=".01"></p>
+    <p>DAY:
+    <input type="number" name="DAY" step=".01"></p>
+    <p>MEAL ID:
+    <input type="number" name="MEALID"></p>
+    <p><input type="submit" value="PREDECIR"></p>
+</form>
+</body>
+</html>
