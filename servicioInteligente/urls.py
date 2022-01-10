@@ -23,7 +23,8 @@ urlpatterns = [
     url(r'^nuevasolicitud/$', views.Clasificacion.determinarAprobacion),
     url(r'^predecir/', views.Clasificacion.predecir),
     url(r'^predecir2/', views.Clasificacion.predecirServ),
-    path('obtenerList', views.Clasificacion.buscarMealList),
-    path('obtenerIngredientes', views.Clasificacion.buscarIngredientesList),
+    path('foodpredict/obtenerList', views.Clasificacion.buscarMealList),
+    path('foodpredict/obtenerIngredientes', views.Clasificacion.buscarIngredientesList),
+    path('foodpredict/obtenerInfo', views.Clasificacion.buscarIngredientesInfo),
     path('predict', views.Clasificacion.buscar2),
 ]

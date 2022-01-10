@@ -116,7 +116,6 @@ class modeloSNN():
         # load model weights
         model.load_weights('Recursos/modeloRedNeuronalBase.h5')
         print("cargada red")
-        print(Xnew_Preprocesado)
         Xnew = Xnew_Preprocesado.reshape((Xnew_Preprocesado.shape[0], 1, Xnew_Preprocesado.shape[1]))
         pred = model.predict(Xnew)
         dfpredict = pd.DataFrame(np.ceil(pred), columns=['prediccion'])

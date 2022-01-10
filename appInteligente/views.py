@@ -107,6 +107,8 @@ class Clasificacion():
                 }
         return Response(predictions)
 
+
+
     @csrf_exempt
     @api_view(['GET', 'POST'])
     def buscarIngredientesList(request):
@@ -126,6 +128,41 @@ class Clasificacion():
 
             recipes = modeloSNN.modeloSNN.webScrappingRecipe(modeloSNN.modeloSNN,mealList)
             recipes = recipes.fillna('')
+            json_list = json.loads(json.dumps(list(recipes.T.to_dict().values())))
+
+            predictions = {
+                'error': '0',
+                'message': 'Successfull',
+                'prediction': json_list
+            }
+        except Exception as e:
+            predictions = {
+                'error': '2',
+                "message": str(e)
+            }
+        return Response(predictions)
+
+    @csrf_exempt
+    @api_view(['GET', 'POST'])
+    def buscarIngredientesInfo(request):
+        try:
+            mealList = {}
+            for dict in request.data:
+                if dict['meal_id'] not in mealList:
+                    mealList[dict['meal_id']] = dict['prediccion']
+                else:
+                    mealList[dict['meal_id']] = mealList[dict['meal_id']] + dict['prediccion']
+
+            recipes = modeloSNN.modeloSNN.webScrappingRecipe(modeloSNN.modeloSNN, mealList)
+            recipes = recipes.fillna('')
+            recipes = recipes.filter(['ingredients', 'amount', 'unit'], axis=1)
+            recipes['amount'] = recipes.groupby(['ingredients', 'unit'], dropna=False)['amount'].transform(
+                'sum')
+            recipes = recipes.drop_duplicates()
+            decimals = 2
+            recipes['amount'] = recipes['amount'].apply(lambda x: round(x, decimals))
+            print("recipes", recipes.T.to_dict().values())
+
             json_list = json.loads(json.dumps(list(recipes.T.to_dict().values())))
 
             predictions = {
