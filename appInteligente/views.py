@@ -94,7 +94,14 @@ class Clasificacion():
             dfResult = modeloSNN.modeloSNN.preprocesarNuevoClienteList(modeloSNN.modeloSNN, recipes_all)
             # dfResult = dfResult.to_json(orient = "records", lines=True)
             # dfResult = dfResult.to_json('temp.json.gz', orient='records', lines=True, compression='gzip')
-            json_list = json.loads(json.dumps(list(dfResult.T.to_dict().values())))
+            df = pd.read_excel('./Recursos/orderComida.xlsx')
+            dfMerge = pd.merge(dfResult, df, on="meal_id")
+            dfMerge = dfMerge.drop(['code', 'name', 'nameFile', 'originalingredientLines', 'ingredientLines', 'rating',
+                                    'attributes.course', 'attributes.cuisine', 'images', 'attribution.url', 'flavors.Piquant',
+                                    'flavors.Sour', 'flavors.Salty', 'flavors.Sweet', 'flavors.Bitter',
+                                    'flavors.Meaty','bag_of_words'], axis=1)
+            print(dfMerge)
+            json_list = json.loads(json.dumps(list(dfMerge.T.to_dict().values())))
             predictions = {
                 'error': '0',
                 'message': 'Successfull',
