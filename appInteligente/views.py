@@ -100,7 +100,6 @@ class Clasificacion():
                                     'attributes.course', 'attributes.cuisine', 'images', 'attribution.url', 'flavors.Piquant',
                                     'flavors.Sour', 'flavors.Salty', 'flavors.Sweet', 'flavors.Bitter',
                                     'flavors.Meaty','bag_of_words'], axis=1)
-            print(dfMerge)
             json_list = json.loads(json.dumps(list(dfMerge.T.to_dict().values())))
             predictions = {
                 'error': '0',
